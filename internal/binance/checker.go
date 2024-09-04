@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"time"
 
@@ -14,42 +13,35 @@ import (
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
-func CheckPricesAndNotify(client *telegram.Client) {
+// CheckPricesAndNotify checks the prices of the specified alerts and sends notifications if necessary
+func CheckPricesAndNotify(client *telegram.Client, chatID int64) {
 	binanceClient := binance.NewClient("", "") // Initialize the Binance client
-
-	// Get the chat ID from environment variable
-	chatID := os.Getenv("TELEGRAM_CHAT_ID")
-
-	// Convert chatID to int64 as expected by the SendMessage method
-	chatIDInt64, err := strconv.ParseInt(chatID, 10, 64)
-	if err != nil {
-		log.Fatalf("Invalid TELEGRAM_CHAT_ID: %v", err)
-	}
 
 	for {
 		for _, alert := range configs.PriceAlerts {
-			// Get the current price from Binance API
-			ctx := context.Background() // Create a context
+			//Retrieve the current price from Binance
+			ctx := context.Background()
 			prices, err := binanceClient.NewListPricesService().Symbol(alert.Symbol).Do(ctx)
 			if err != nil {
-				log.Printf("Error fetching price for %s: %v", alert.Symbol, err)
+				log.Printf("Ошибка при получении цены для %s: %v", alert.Symbol, err)
 				continue
 			}
 
 			price, _ := strconv.ParseFloat(prices[0].Price, 64)
-			fmt.Printf("Current price of %s: %f\n", alert.Symbol, price)
+			fmt.Printf("Текущая цена %s: %f\n", alert.Symbol, price)
 
-			// Check if the price is below or above the threshold
+			// Check if the price is within the specified range
 			if price <= alert.MinPrice || price >= alert.MaxPrice {
 				message := fmt.Sprintf("Alert! %s price is now %f", alert.Symbol, price)
-				err := client.SendMessage(chatIDInt64, message)
+				// Use the Telegram client to send the message
+				err := client.SendMessage(chatID, message)
 				if err != nil {
-					log.Printf("Error sending message: %v", err)
+					log.Printf("Ошибка при отправке сообщения: %v", err)
 				}
 			}
 		}
 
-		// Wait for a specific amount of time before checking the prices again
-		time.Sleep(10 * time.Second) // Example: wait for 10 minutes
+		// Wait for 10 seconds before checking again
+		time.Sleep(10 * time.Second) // Get prices every 10 seconds
 	}
 }
