@@ -1,4 +1,4 @@
-package pricechecker
+package binance
 
 import (
 	"context"

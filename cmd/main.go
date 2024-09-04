@@ -1,12 +1,12 @@
 package main
 
 import (
+	handlers "github.com/bohexists/telegram-hub-svc/internal/hendler "
 	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 
-	"github.com/bohexists/telegram-hub-svc/internal/pricechecker"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
@@ -20,6 +20,9 @@ func main() {
 	// Initialize a new client with the bot token from environment variable
 	client := telegram.NewClient(os.Getenv("TELEGRAM_BOT_TOKEN"))
 
-	// Call the price checker function
-	pricechecker.CheckPricesAndNotify(client)
+	// Start the bot and handle updates
+	handlers.HandleBotUpdates(client)
+
+	// Keep the program running
+	select {}
 }
