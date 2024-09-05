@@ -6,7 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/bohexists/telegram-hub-svc/internal/hendlers"
+	"github.com/bohexists/telegram-hub-svc/internal/handlers"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
