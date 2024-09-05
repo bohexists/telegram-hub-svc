@@ -1,12 +1,12 @@
 package main
 
 import (
-	handlers "github.com/bohexists/telegram-hub-svc/internal/hendler "
 	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 
+	"github.com/bohexists/telegram-hub-svc/internal/hendler"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
