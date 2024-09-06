@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 	"log"
+	"strings"
 )
 
 // RouteMessage routes the incoming message to the correct handler
@@ -15,7 +16,12 @@ func RouteMessage(client *telegram.Client, chatID int64, text string) {
 	case "/status":
 		HandleStatusCommand(client, chatID)
 	default:
-		DefaultHandler(client, chatID, text)
+		if strings.HasPrefix(text, "/settings") {
+			SettingsHandler(client, chatID, text)
+		} else {
+			DefaultHandler(client, chatID, text)
+		}
+	}
 	}
 }
 
