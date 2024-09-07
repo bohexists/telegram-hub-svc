@@ -6,9 +6,9 @@ import (
 
 	"github.com/joho/godotenv"
 
+	"github.com/bohexists/telegram-hub-svc/db"
 	"github.com/bohexists/telegram-hub-svc/internal/handlers"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
-	"github.com/bohexists/telegram-hub-svc/storage"
 )
 
 func main() {
@@ -18,8 +18,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// Initialize database connection
-	storage.InitDB()
+	// Initialize the database connection
+	db.InitDB()
 
 	// Initialize a new client with the bot token from environment variable
 	client := telegram.NewClient(os.Getenv("TELEGRAM_BOT_TOKEN"))
