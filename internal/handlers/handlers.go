@@ -7,10 +7,10 @@ import (
 )
 
 // RouteMessage routes the incoming message to the correct handler
-func RouteMessage(client *telegram.Client, chatID int64, text string) {
+func RouteMessage(client *telegram.Client, chatID int64, text string, user *telegram.User) {
 	switch text {
 	case "/start":
-		StartHandler(client, chatID)
+		StartHandler(client, chatID, user)
 	case "/help":
 		HelpHandler(client, chatID)
 	case "/status":
@@ -21,7 +21,6 @@ func RouteMessage(client *telegram.Client, chatID int64, text string) {
 		} else {
 			DefaultHandler(client, chatID, text)
 		}
-	}
 	}
 }
 

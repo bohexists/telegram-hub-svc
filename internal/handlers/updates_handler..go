@@ -25,8 +25,10 @@ func HandleBotUpdates(client *telegram.Client) {
 			for _, update := range updates {
 				if update.Message != nil {
 					chatID := update.Message.Chat.ID
+					user := update.Message.From // Extracting user info
 					activeUsers[chatID] = struct{}{}
 					log.Printf("Chat ID detected: %d", chatID)
+					RouteMessage(client, chatID, update.Message.Text, user) // Passing user info
 				}
 			}
 

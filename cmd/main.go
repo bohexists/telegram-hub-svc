@@ -8,6 +8,7 @@ import (
 
 	"github.com/bohexists/telegram-hub-svc/internal/handlers"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
+	"github.com/bohexists/telegram-hub-svc/storage"
 )
 
 func main() {
@@ -16,6 +17,9 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	// Initialize database connection
+	storage.InitDB()
 
 	// Initialize a new client with the bot token from environment variable
 	client := telegram.NewClient(os.Getenv("TELEGRAM_BOT_TOKEN"))
