@@ -9,6 +9,8 @@ import (
 	"github.com/bohexists/telegram-hub-svc/db"
 	"github.com/bohexists/telegram-hub-svc/internal/handlers"
 	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
