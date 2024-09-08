@@ -67,7 +67,7 @@ func CheckPricesAndNotify(client *telegram.Client, configs configs.Config) {
 				log.Printf("No alert triggered for %s at price %f", alert.Symbol, price)
 			}
 		}
+		time.Sleep(configs.PriceCheckInterval) // Pause for 10 seconds before checking again
 	}
 
-	time.Sleep(configs.PriceCheckInterval) // Pause for 10 seconds before checking again
 }

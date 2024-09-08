@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/bohexists/telegram-hub-svc/configs"
 	"log"
 	"time"
 
@@ -31,5 +32,5 @@ func ProcessBotUpdates(client *telegram.Client) {
 	}()
 
 	// Запуск функции проверки цен и отправки уведомлений
-	go binance.CheckPricesAndNotify(client)
+	go binance.CheckPricesAndNotify(client, configs.DefaultConfig)
 }
