@@ -12,9 +12,10 @@ import (
 func ProcessBotUpdates(client *telegram.Client) {
 	go func() {
 		for {
-			updates, err := client.GetUpdates(0)
+			updates, err := client.GetUpdates()
 			if err != nil {
-				log.Fatalf("Error getting updates: %v", err)
+				log.Println("Failed to get updates:", err)
+				return
 			}
 
 			for _, update := range updates {

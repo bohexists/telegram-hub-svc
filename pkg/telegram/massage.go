@@ -1,6 +1,5 @@
 package telegram
 
-// Message represents a message structure in Telegram
 type Message struct {
 	MessageID int    `json:"message_id"`
 	From      *User  `json:"from"`
@@ -9,22 +8,31 @@ type Message struct {
 	Text      string `json:"text"`
 }
 
-// User represents a Telegram user structure
 type User struct {
-	ID           int64  `json:"id"`
-	IsBot        bool   `json:"is_bot"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Username     string `json:"username"`
-	LanguageCode string `json:"language_code"`
-}
-
-// Chat represents a chat structure in Telegram
-type Chat struct {
 	ID        int64  `json:"id"`
-	Type      string `json:"type"`
-	Title     string `json:"title"`
-	Username  string `json:"username"`
+	IsBot     bool   `json:"is_bot"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
+	Username  string `json:"username"`
+}
+
+type Chat struct {
+	ID   int64  `json:"id"`
+	Type string `json:"type"`
+}
+
+type SendMessageData struct {
+	ChatID int64  `json:"chat_id"`
+	Text   string `json:"text"`
+}
+
+type GetUpdatesData struct {
+	Offset  int64 `json:"offset"`
+	Limit   int   `json:"limit"`
+	Timeout int   `json:"timeout"`
+}
+
+type Update struct {
+	UpdateID int64    `json:"update_id"`
+	Message  *Message `json:"message"`
 }
