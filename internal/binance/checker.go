@@ -16,13 +16,13 @@ import (
 
 // CheckPricesAndNotify checks the prices of the specified alerts and sends notifications if necessary
 func CheckPricesAndNotify(client *telegram.Client, configs configs.Config) {
-
-	binanceClient := binance.NewClient("", "") // Initialize the Binance client
+	// Initialize the Binance client
+	binanceClient := binance.NewClient("", "")
 
 	for {
 		log.Println("Fetching alerts from database...")
-		// Retrieve all users from the database
 
+		// Retrieve all users from the database
 		alerts, err := storage.GetAllCryptoAlerts()
 		if err != nil {
 			log.Printf("Error fetching alerts: %v", err)
@@ -38,6 +38,7 @@ func CheckPricesAndNotify(client *telegram.Client, configs configs.Config) {
 			if !alert.Enabled {
 				continue
 			}
+			// Retrieve the current price from Binance
 			ctx := context.Background()
 			prices, err := binanceClient.NewListPricesService().Symbol(alert.Symbol).Do(ctx)
 			if err != nil {
@@ -58,6 +59,7 @@ func CheckPricesAndNotify(client *telegram.Client, configs configs.Config) {
 
 				log.Printf("Alert triggered for %s at price %f", alert.Symbol, price)
 
+				// Send a message to the user
 				message := fmt.Sprintf("Alert! %s price is now %f", alert.Symbol, price)
 				err := client.SendMessage(alert.ChatID, message) // Directly use ChatID stored in the alert
 				if err != nil {

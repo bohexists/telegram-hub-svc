@@ -11,14 +11,14 @@ import (
 func RouteMessage(client *telegram.Client, chatID int64, text string, user *telegram.User) {
 	switch text {
 	case "/start":
-		StartHandler(client, chatID, user)
+		StartHandler(client, chatID, user) // Save user data
 	case "/help":
-		HelpHandler(client, chatID)
+		HelpHandler(client, chatID) // Send help message
 	case "/status":
-		HandleStatusCommand(client, chatID)
+		HandleStatusCommand(client, chatID) // Send status message
 	default:
 		if strings.HasPrefix(text, "/settings") {
-			SettingsHandler(client, chatID, text)
+			SettingsHandler(client, chatID, text) // Update user settings
 		} else {
 			DefaultHandler(client, chatID, text)
 		}
