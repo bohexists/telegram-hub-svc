@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 	"log"
+
+	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
 // HelpHandler sends a help message to the user

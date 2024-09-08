@@ -9,25 +9,24 @@ import (
 
 // StartHandler processes the "/start" command, saves user data into the database.
 func StartHandler(client *telegram.Client, chatID int64, user *telegram.User) {
-	// Create a new User instance to be saved in the database
-	dbUser := storage.User{
+	// Try to create a new user in the database
+	created, err := storage.CreateUser(storage.User{
 		ChatID:    chatID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Username:  user.Username,
-	}
-
-	// Save the user to the database
-	err := storage.CreateUser(dbUser)
+	})
 	if err != nil {
-		log.Printf("Failed to save user: %v", err)
+		// If there is an error, send a message back to the user
+		client.SendMessage(chatID, "An error occurred while saving your data. Please try again later.")
+		log.Printf("Error creating user: %v", err)
 		return
 	}
-
-	// Respond to the user in Telegram
-	message := "Welcome to the bot!"
-	err = client.SendMessage(chatID, message)
-	if err != nil {
-		log.Printf("Error sending message: %v", err)
+	if created {
+		// If user was successfully created, send a welcome message
+		client.SendMessage(chatID, "Welcome to the bot! Your data has been successfully saved.")
+	} else {
+		// If the user already exists, send a different message
+		client.SendMessage(chatID, "Welcome back! You are already registered.")
 	}
 }

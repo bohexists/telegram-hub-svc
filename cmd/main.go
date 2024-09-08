@@ -27,7 +27,7 @@ func main() {
 	client := telegram.NewClient(os.Getenv("TELEGRAM_BOT_TOKEN"))
 
 	// Start the bot and handle updates
-	handlers.HandleBotUpdates(client)
+	handlers.ProcessBotUpdates(client)
 
 	// Keep the program running
 	select {}

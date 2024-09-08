@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 	"log"
 	"strings"
+
+	"github.com/bohexists/telegram-hub-svc/pkg/telegram"
 )
 
 // RouteMessage routes the incoming message to the correct handler
